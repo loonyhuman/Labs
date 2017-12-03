@@ -1,0 +1,79 @@
+#include <iostream>
+#include <ctime>
+#define M 3
+#define N 3
+#define k 2
+using namespace std;
+
+int** allocateMemory(int m, int n)
+{
+	int** pointer = new int*[m];
+
+	for (int i = 0; i < m; ++i)
+	{
+		pointer[i] = new int[n];
+	}
+
+	return pointer;
+}
+
+int random(int min, int max)
+{
+	return min + rand() % (max - min);
+}
+
+void fill(int** matrix, int m, int n)
+{
+	srand(time(NULL));
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			matrix[i][j] = random(-10, 10);
+		}
+	}
+}
+
+void print(int** matrix, int m, int n)
+{
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << "A[" << i << "][" << j << "] : " << matrix[i][j] << endl;
+		}
+	}
+}
+
+int solution(int **A1, int q, int n, int m)
+{
+	int a = 0;
+
+	for (int i = 0; i<n; i++)
+	{
+		if (A1[i][q] == 0)  a++;
+	}
+
+	for (int i = 0; i<m; i++)
+	{
+		if (A1[q][i] == 0)  a++;
+	}
+
+	for (int i = 0; i<n; i++)
+		if (A1[n - 1][i] == 0)  a++;
+
+	for (int i = 0; i<m; i++)
+		if (A1[i][m - 1] == 0)  a++;
+	return a;
+}
+
+int main()
+{
+	int** A;
+	A = allocateMemory(M, N);
+	fill(A, M, N);
+	print(A, M, N);
+	cout << "The total number of 0: " << solution(A, k - 1, M, N) << endl;
+	system("pause");
+	return 0;
+}
